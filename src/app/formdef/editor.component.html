@@ -1,0 +1,53 @@
+<div class="form-group" 
+  [ngSwitch]="editor.type"
+  [formGroup]="parentForm">
+  <ng-container *ngSwitchCase="'number'">
+    <label [attr.for]="editor.name">
+      {{ editor.label }}
+    </label>
+    <input type="number" 
+           class="form-control" 
+           [attr.id]="editor.name" 
+           [formControlName]="editor.name">
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'password'">
+      <label [attr.for]="editor.name">
+        {{ editor.label }}
+      </label>
+      <input type="password" 
+             class="form-control" 
+             [attr.id]="editor.name" 
+             [formControlName]="editor.name">
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'checkbox'">
+      <label [attr.for]="editor.name">
+        {{ editor.label }}
+      </label>
+      <input type="checkbox" 
+             class="form-control" 
+             [attr.id]="editor.name" 
+             [formControlName]="editor.name">
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'date'">
+      <label [attr.for]="editor.name">
+        {{ editor.label }}
+      </label>
+      <input type="date" 
+             class="form-control" 
+             [attr.id]="editor.name" 
+             [formControlName]="editor.name">
+  </ng-container>
+
+  <p *ngSwitchDefault>
+    <label [attr.for]="editor.name">
+      {{ editor.label }}
+    </label>
+    <input type="text" 
+           class="form-control" 
+           [attr.id]="editor.name" 
+           [formControlName]="editor.name">
+  </p>
+</div>

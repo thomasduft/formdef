@@ -1,0 +1,14 @@
+<ng-container *ngIf="slot.editors && slot.editors.length > 0">
+  <tw-editor *ngFor="let editor of slot.editors" 
+    [editor]="editor"   
+    [parentForm]="parentForm">
+  </tw-editor>
+</ng-container>
+<ng-container *ngIf="slot.children && slot.children.length > 0">
+  <div *ngFor="let child of slot.children">
+    <tw-slot 
+      [slot]="child" 
+      [parentForm]="parentForm.get(child.key)">
+    </tw-slot>
+  </div>
+</ng-container>
