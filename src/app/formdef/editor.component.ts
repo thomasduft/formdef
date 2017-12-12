@@ -3,7 +3,8 @@ import {
   Input
 } from '@angular/core';
 import {
-  FormGroup
+  FormGroup,
+  AbstractControl
 } from '@angular/forms';
 
 import { Editor } from './models';
@@ -18,4 +19,8 @@ export class EditorComponent {
 
   @Input()
   public parentForm: FormGroup;
+
+  public control(name: string): AbstractControl {
+    return this.parentForm.get(name);
+  }
 }

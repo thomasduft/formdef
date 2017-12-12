@@ -13,6 +13,11 @@ export interface Editor {
   name: string;
   label: string;
   value?: any;
+  options?: any;
+  required?: boolean;
+  size?: number;
+  valueMin?: number;
+  valueMax?: number;
 }
 
 export const SINGLE_SLOT = 'single';

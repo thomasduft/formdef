@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  FormArray,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 
 import { Editor, Slot, SINGLE_SLOT, ARRAY_SLOT } from './models';
 import { SlotRegistry } from './slotRegistry.service';
@@ -29,7 +36,7 @@ export class FormdefService {
     if (slot.type === SINGLE_SLOT) {
       slot.editors.forEach((e: Editor) => {
         e.value = viewModel[e.name];
-        fg.addControl(e.name, new FormControl(e.value)); // validators?
+        fg.addControl(e.name, new FormControl(e.value, this.getValidators(e))); // validators?
       });
     }
 
@@ -51,5 +58,24 @@ export class FormdefService {
     }
 
     return fg;
+  }
+
+  private getValidators(editor: Editor): ValidatorFn {
+    const validators: Array<ValidatorFn> = new Array<ValidatorFn>();
+
+    if (editor.required) {
+      validators.push(Validators.required);
+    }
+    if (editor.size) {
+      validators.push(Validators.maxLength(editor.size));
+    }
+    if (editor.valueMin) {
+      validators.push(Validators.min(editor.valueMin));
+    }
+    if (editor.valueMax) {
+      validators.push(Validators.max(editor.valueMax));
+    }
+
+    return Validators.compose(validators);
   }
 }

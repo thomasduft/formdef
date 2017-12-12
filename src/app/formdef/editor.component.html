@@ -1,53 +1,53 @@
-<div class="form-group" 
-  [ngSwitch]="editor.type"
-  [formGroup]="parentForm">
+<div [ngClass]="{ 'has-danger': control(editor.name).invalid, 'form-group': editor.type !== 'checkbox', 'checkbox': editor.type === 'checkbox' }" [ngSwitch]="editor.type" [formGroup]="parentForm">
+
+  <label *ngIf="editor.type !== 'checkbox'" class="form-control-label" [attr.for]="editor.name">
+    {{ editor.label }}
+  </label>
+
   <ng-container *ngSwitchCase="'number'">
-    <label [attr.for]="editor.name">
-      {{ editor.label }}
-    </label>
-    <input type="number" 
-           class="form-control" 
-           [attr.id]="editor.name" 
-           [formControlName]="editor.name">
+    <input type="number" class="form-control" [attr.id]="editor.name" [formControlName]="editor.name">
   </ng-container>
 
   <ng-container *ngSwitchCase="'password'">
-      <label [attr.for]="editor.name">
-        {{ editor.label }}
-      </label>
-      <input type="password" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name">
+    <input type="password" class="form-control" [attr.id]="editor.name" [formControlName]="editor.name">
   </ng-container>
 
   <ng-container *ngSwitchCase="'checkbox'">
-      <label [attr.for]="editor.name">
-        {{ editor.label }}
-      </label>
-      <input type="checkbox" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name">
+    <label>
+      <input type="checkbox" [attr.id]="editor.name" [formControlName]="editor.name">
+      {{ editor.label }}
+    </label>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'select'">
+    <select class="form-control" [formControlName]="editor.name">
+      <option *ngIf="!editor.required" [value]=""></option>
+      <option *ngFor="let opt of editor.options" [value]="opt.key" [selected]="editor.value === opt.key">
+        {{ opt.value }}
+      </option>
+    </select>
   </ng-container>
 
   <ng-container *ngSwitchCase="'date'">
-      <label [attr.for]="editor.name">
-        {{ editor.label }}
-      </label>
-      <input type="date" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name">
+    <input type="date" class="form-control" [attr.id]="editor.name" [formControlName]="editor.name">
   </ng-container>
 
-  <p *ngSwitchDefault>
-    <label [attr.for]="editor.name">
-      {{ editor.label }}
-    </label>
-    <input type="text" 
-           class="form-control" 
-           [attr.id]="editor.name" 
-           [formControlName]="editor.name">
-  </p>
+  <ng-container *ngSwitchDefault>
+    <input type="text" class="form-control" [attr.id]="editor.name" [formControlName]="editor.name">
+  </ng-container>
+
+  <div *ngIf="control(editor.name).invalid" class="alert alert-danger">
+    <div *ngIf="control(editor.name).errors.required">
+      {{ editor.label }} required.
+    </div>
+    <div *ngIf="control(editor.name).errors.maxlength">
+      {{ editor.label }} must not be longer than {{ editor.size }} characters.
+    </div>
+    <div *ngIf="control(editor.name).errors.min">
+      {{ editor.label }} must not be lower than {{ editor.valueMin }}.
+    </div>
+    <div *ngIf="control(editor.name).errors.max">
+      {{ editor.label }} must not be greater than {{ editor.valueMax }}.
+    </div>
+  </div>
 </div>

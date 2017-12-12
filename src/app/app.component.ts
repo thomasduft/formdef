@@ -14,7 +14,9 @@ export class AppComponent {
   public viewModel = {
     surname: 'Thomas',
     lastname: 'Duft',
-    select: true,
+    isDefault: true,
+    gender: 'm',
+    year: 1980,
     address: {
       street: 'Some street',
       zip: '12345'
