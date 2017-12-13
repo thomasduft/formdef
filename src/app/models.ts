@@ -1,5 +1,6 @@
 import {
   SINGLE_SLOT,
+  ARRAY_SLOT,
   Editor,
   Slot,
   TEXT_EDITOR,
@@ -39,7 +40,7 @@ export class ContactSlot implements Slot {
         type: SELECT_EDITOR,
         name: 'gender',
         label: 'Gender',
-        required: false,
+        required: true,
         options: [
           { key: 'm', value: 'male' },
           { key: 'f', value: 'female' }
@@ -71,7 +72,30 @@ export class ContactSlot implements Slot {
           }
         ],
         children: []
-      }
+      },
+      // {
+      //   key: 'phones',
+      //   type: ARRAY_SLOT,
+      //   editors: [
+      //     {
+      //       type: SELECT_EDITOR,
+      //       name: 'type',
+      //       label: 'Type',
+      //       required: true,
+      //       options: [
+      //         { key: 'private', value: 'private' },
+      //         { key: 'office', value: 'office' }
+      //       ]
+      //     },
+      //     {
+      //       type: TEXT_EDITOR,
+      //       name: 'number',
+      //       label: 'Number',
+      //       required: true
+      //     }
+      //   ],
+      //   children: []
+      // }
     ];
   }
 }

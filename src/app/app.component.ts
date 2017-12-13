@@ -20,6 +20,10 @@ export class AppComponent {
     address: {
       street: 'Some street',
       zip: '12345'
-    }
+    },
+    // phones: [
+    //   { type: 'private', number: '0123456' },
+    //   { type: 'office', number: '987654' }
+    // ]
   };
 }

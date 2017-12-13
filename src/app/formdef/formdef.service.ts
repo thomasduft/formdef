@@ -5,16 +5,17 @@ import {
   FormControl,
   FormArray,
   ValidatorFn,
-  Validators
+  Validators,
+  AbstractControl
 } from '@angular/forms';
 
 import { Editor, Slot, SINGLE_SLOT, ARRAY_SLOT } from './models';
-import { SlotRegistry } from './slotRegistry.service';
+import { FormdefRegistry } from './formdefRegistry.service';
 
 @Injectable()
 export class FormdefService {
   public constructor(
-    private _slotRegistry: SlotRegistry,
+    private _slotRegistry: FormdefRegistry,
     private _fb: FormBuilder
   ) { }
 
@@ -23,32 +24,42 @@ export class FormdefService {
 
     const fg = this.toGroupRecursive(slot, viewModel);
 
-    return fg;
+    return <FormGroup>fg;
   }
 
   public getSlot(key: string): Slot {
     return this._slotRegistry.get(key);
   }
 
-  private toGroupRecursive(slot: Slot, viewModel: any): FormGroup {
+  private toGroupRecursive(slot: Slot, viewModel: any): FormGroup | FormArray {
     const fg = this._fb.group({});
+    let fa: FormArray;
 
     if (slot.type === SINGLE_SLOT) {
       slot.editors.forEach((e: Editor) => {
         e.value = viewModel[e.name];
-        fg.addControl(e.name, new FormControl(e.value, this.getValidators(e))); // validators?
+        fg.addControl(e.name, new FormControl(e.value, this.getValidators(e)));
       });
     }
 
-    if (slot.type === ARRAY_SLOT) {
-      const children = [];
-      slot.children.forEach((s: Slot) => {
-        children.push(this.toGroupRecursive(s, viewModel[s.key]));
-      });
+    if (slot.type === ARRAY_SLOT
+      && Array.isArray(viewModel)) {
 
-      fg.addControl(slot.key, new FormArray(children));
+      fa = this._fb.array([]);
 
-      return fg;
+      for (let i = 0; i < viewModel.length; i++) {
+        const vm = viewModel[i];
+        const row = this._fb.group({});
+
+        slot.editors.forEach((e: Editor) => {
+          const value = vm[e.name];
+          row.addControl(e.name, new FormControl(value, this.getValidators(e)));
+        });
+
+        fa.push(row);
+      }
+
+      return fa;
     }
 
     if (slot.children && slot.children.length > 0) {

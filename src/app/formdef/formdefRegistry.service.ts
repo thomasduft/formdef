@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Slot } from './models';
 
 @Injectable()
-export class SlotRegistry {
+export class FormdefRegistry {
   private _registry: Map<string, Slot>;
 
   public constructor() {

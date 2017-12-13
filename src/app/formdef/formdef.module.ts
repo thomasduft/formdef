@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormdefService } from './formdef.service';
-import { SlotRegistry } from './slotRegistry.service';
+import { FormdefRegistry } from './formdefRegistry.service';
 
+import { ArraySlotComponent } from './arraySlot.component';
 import { SlotComponent } from './slot.component';
 import { EditorComponent } from './editor.component';
 import { FormdefComponent } from './formdef.component';
@@ -17,14 +18,15 @@ import { FormdefComponent } from './formdef.component';
   declarations: [
     EditorComponent,
     FormdefComponent,
-    SlotComponent
+    SlotComponent,
+    ArraySlotComponent
   ],
   exports: [
     FormdefComponent
   ],
   providers: [
     FormdefService,
-    SlotRegistry
+    FormdefRegistry
   ]
 })
 export class FormdefModule { }
