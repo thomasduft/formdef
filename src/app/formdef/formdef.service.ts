@@ -31,6 +31,16 @@ export class FormdefService {
     return this._slotRegistry.get(key);
   }
 
+  public createRow(arraySlot: Slot, template: FormGroup): FormGroup {
+    const row = this._fb.group({});
+
+    arraySlot.editors.forEach((e: Editor) => {
+      row.addControl(e.name, new FormControl(undefined, this.getValidators(e)));
+    });
+
+    return row;
+  }
+
   private toGroupRecursive(slot: Slot, viewModel: any): FormGroup | FormArray {
     const fg = this._fb.group({});
     let fa: FormArray;

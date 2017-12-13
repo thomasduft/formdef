@@ -26,6 +26,7 @@ export const ARRAY_SLOT = 'array';
 export interface Slot {
   key: string;
   type: string;
+  title: string;
   editors: Array<Editor>;
   children: Array<Slot>;
 }

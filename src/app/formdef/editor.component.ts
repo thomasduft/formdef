@@ -50,9 +50,7 @@ import { Editor } from './models';
     <ng-container *ngSwitchCase="'select'">
       <select class="form-control" [formControlName]="editor.name">
         <option *ngIf="!editor.required" [value]=""></option>
-        <option *ngFor="let opt of editor.options" 
-                [value]="opt.key" 
-                [selected]="editor.value === opt.key">
+        <option *ngFor="let opt of editor.options" [value]="opt.key">
           {{ opt.value }}
         </option>
       </select>

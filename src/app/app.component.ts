@@ -21,9 +21,9 @@ export class AppComponent {
       street: 'Some street',
       zip: '12345'
     },
-    // phones: [
-    //   { type: 'private', number: '0123456' },
-    //   { type: 'office', number: '987654' }
-    // ]
+    phones: [
+      { type: 'p', number: '0123456' },
+      { type: 'o', number: '987654' }
+    ]
   };
 }

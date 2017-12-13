@@ -5,23 +5,31 @@ import {
 import {
   FormGroup,
   FormArray,
+  FormControl,
+  FormBuilder,
   AbstractControl
 } from '@angular/forms';
 
 import { Editor, Slot } from './models';
+import { FormdefService } from './formdef.service';
 
 @Component({
   selector: 'tw-arrayslot',
   template: `
+  <h3>{{ slot.title }}</h3>
+  <button class="btn btn-secondary" role="button" (click)="add($event)">+</button>
   <table class="table table-sm" [formGroup]="parentForm">
-    <tbody [formArrayName]="rows">
+    <tbody>
       <tr *ngFor="let row of rows.controls; let idx = index">
         <td *ngFor="let editor of slot.editors">
           <tw-editor
             [hideLabel]="true"
             [editor]="editor"
-            [parentForm]="lookUpControl(idx, editor)">
+            [parentForm]="rows.at(idx)">
           </tw-editor>
+        </td>
+        <td>
+          <a class="btn btn-secondary" href="#" role="button" (click)="remove(idx)">-</a>
         </td>
       </tr>
     </tbody>
@@ -40,17 +48,18 @@ export class ArraySlotComponent {
     return this.parentForm.get(this.slot.key) as FormArray;
   }
 
-  public getFormGroupAt(idx: number): FormGroup {
-    return this.parentForm.get(idx.toString()) as FormGroup;
+  public constructor(
+    private _service: FormdefService
+  ) { }
+
+  public add(event: Event): void {
+    event.preventDefault();
+
+    const row = this._service.createRow(this.slot, this.rows.at(0) as FormGroup);
+    this.rows.push(row);
   }
 
-  public lookUpControl(idx: number, editor: Editor): AbstractControl {
-    const row = this.rows.at(idx);
-    if (row) {
-      const ctrl = row.get(editor.name);
-      return ctrl;
-    }
-
-    throw new Error(`Cannot find control in ${this.slot.key} with index ${idx} and name ${editor.name}!`);
+  public remove(idx: number): void {
+    this.rows.removeAt(idx);
   }
 }

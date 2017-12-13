@@ -14,6 +14,7 @@ export class ContactSlot implements Slot {
 
   public key = ContactSlot.KEY;
   public type = SINGLE_SLOT;
+  public title = 'Contact';
   public editors: Editor[];
   public children: Slot[];
 
@@ -59,6 +60,7 @@ export class ContactSlot implements Slot {
       {
         key: 'address',
         type: SINGLE_SLOT,
+        title: 'Address',
         editors: [
           {
             type: TEXT_EDITOR,
@@ -73,29 +75,31 @@ export class ContactSlot implements Slot {
         ],
         children: []
       },
-      // {
-      //   key: 'phones',
-      //   type: ARRAY_SLOT,
-      //   editors: [
-      //     {
-      //       type: SELECT_EDITOR,
-      //       name: 'type',
-      //       label: 'Type',
-      //       required: true,
-      //       options: [
-      //         { key: 'private', value: 'private' },
-      //         { key: 'office', value: 'office' }
-      //       ]
-      //     },
-      //     {
-      //       type: TEXT_EDITOR,
-      //       name: 'number',
-      //       label: 'Number',
-      //       required: true
-      //     }
-      //   ],
-      //   children: []
-      // }
+      {
+        key: 'phones',
+        type: ARRAY_SLOT,
+        title: 'Phones',
+        editors: [
+          {
+            type: SELECT_EDITOR,
+            name: 'type',
+            label: 'Type',
+            required: true,
+            options: [
+              { key: 'p', value: 'private' },
+              { key: 'o', value: 'office' }
+            ]
+          },
+          {
+            type: TEXT_EDITOR,
+            name: 'number',
+            label: 'Number',
+            required: true,
+            size: 10
+          }
+        ],
+        children: []
+      }
     ];
   }
 }
