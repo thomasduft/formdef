@@ -1,7 +1,9 @@
 import {
   Component,
   OnInit,
-  Input
+  Input,
+  EventEmitter,
+  Output
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -26,6 +28,9 @@ export class FormdefComponent implements OnInit {
   @Input()
   public viewModel: any;
 
+  @Output()
+  public submitted: EventEmitter<any> = new EventEmitter<any>();
+
   public form: FormGroup;
   public slot: Slot;
 
@@ -34,16 +39,11 @@ export class FormdefComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    console.log(this.viewModel);
-
     this.form = this._formdefService.toGroup(this.key, this.viewModel);
-    console.log(this.form);
-
     this.slot = this._formdefService.getSlot(this.key);
-    console.log(this.slot);
   }
 
   public onSubmit(): void {
-    console.log(this.form.value);
+   this.submitted.next(this.form.value);
   }
 }

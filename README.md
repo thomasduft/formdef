@@ -1,2 +1,2 @@
 # formdef
-Generating dynamic forms with [angular](https://angular.io/) based on a formdefinition and a raw viewmodel.
+Generating dynamic forms with [angular](https://angular.io/) based on a form definition and a raw viewmodel.

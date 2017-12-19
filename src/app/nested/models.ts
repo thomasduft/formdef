@@ -7,14 +7,14 @@ import {
   CHECKBOX_EDITOR,
   SELECT_EDITOR,
   NUMBER_EDITOR
-} from './formdef/index';
+} from './../formdef/index';
 
-export class ContactSlot implements Slot {
-  public static KEY = 'contactslot';
+export class NestedSlot implements Slot {
+  public static KEY = 'nested';
 
-  public key = ContactSlot.KEY;
+  public key = NestedSlot.KEY;
   public type = SINGLE_SLOT;
-  public title = 'Contact';
+  public title = 'Nested';
   public editors: Editor[];
   public children: Slot[];
 

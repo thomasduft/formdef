@@ -4,12 +4,15 @@ import {
   FormGroup,
   FormControl,
   FormArray,
-  ValidatorFn,
-  Validators,
   AbstractControl
 } from '@angular/forms';
 
-import { Editor, Slot, SINGLE_SLOT, ARRAY_SLOT } from './models';
+import { 
+  FormdefValidator,
+  Editor, 
+  Slot, 
+  SINGLE_SLOT, 
+  ARRAY_SLOT } from './models';
 import { FormdefRegistry } from './formdefRegistry.service';
 
 @Injectable()
@@ -31,16 +34,6 @@ export class FormdefService {
     return this._slotRegistry.get(key);
   }
 
-  public createRow(arraySlot: Slot, template: FormGroup): FormGroup {
-    const row = this._fb.group({});
-
-    arraySlot.editors.forEach((e: Editor) => {
-      row.addControl(e.name, new FormControl(undefined, this.getValidators(e)));
-    });
-
-    return row;
-  }
-
   private toGroupRecursive(slot: Slot, viewModel: any): FormGroup | FormArray {
     const fg = this._fb.group({});
     let fa: FormArray;
@@ -48,7 +41,7 @@ export class FormdefService {
     if (slot.type === SINGLE_SLOT) {
       slot.editors.forEach((e: Editor) => {
         e.value = viewModel[e.name];
-        fg.addControl(e.name, new FormControl(e.value, this.getValidators(e)));
+        fg.addControl(e.name, new FormControl(e.value, FormdefValidator.getValidators(e)));
       });
     }
 
@@ -63,7 +56,7 @@ export class FormdefService {
 
         slot.editors.forEach((e: Editor) => {
           const value = vm[e.name];
-          row.addControl(e.name, new FormControl(value, this.getValidators(e)));
+          row.addControl(e.name, new FormControl(value, FormdefValidator.getValidators(e)));
         });
 
         fa.push(row);
@@ -79,24 +72,5 @@ export class FormdefService {
     }
 
     return fg;
-  }
-
-  private getValidators(editor: Editor): ValidatorFn {
-    const validators: Array<ValidatorFn> = new Array<ValidatorFn>();
-
-    if (editor.required) {
-      validators.push(Validators.required);
-    }
-    if (editor.size) {
-      validators.push(Validators.maxLength(editor.size));
-    }
-    if (editor.valueMin) {
-      validators.push(Validators.min(editor.valueMin));
-    }
-    if (editor.valueMax) {
-      validators.push(Validators.max(editor.valueMax));
-    }
-
-    return Validators.compose(validators);
   }
 }

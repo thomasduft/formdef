@@ -10,14 +10,14 @@ import {
   AbstractControl
 } from '@angular/forms';
 
-import { Editor, Slot } from './models';
-import { FormdefService } from './formdef.service';
+import { FormdefValidator, Editor, Slot } from './models';
+import { SlotComponent } from './slot.component';
 
 @Component({
   selector: 'tw-arrayslot',
   template: `
   <h3>{{ slot.title }}</h3>
-  <button class="btn btn-secondary" role="button" (click)="add($event)">+</button>
+  <button type="button" class="btn btn-secondary" role="button" (click)="add($event)">+</button>
   <table class="table table-sm" [formGroup]="parentForm">
     <tbody>
       <tr *ngFor="let row of rows.controls; let idx = index">
@@ -29,7 +29,7 @@ import { FormdefService } from './formdef.service';
           </tw-editor>
         </td>
         <td>
-          <a class="btn btn-secondary" href="#" role="button" (click)="remove(idx)">-</a>
+          <a class="btn btn-secondary" role="button" (click)="remove(idx)">-</a>
         </td>
       </tr>
     </tbody>
@@ -37,29 +37,33 @@ import { FormdefService } from './formdef.service';
   <ng-container *ngIf="slot.editors && slot.editors.length > 0">
   `
 })
-export class ArraySlotComponent {
-  @Input()
-  public slot: Slot;
-
-  @Input()
-  public parentForm: FormGroup;
-
+export class ArraySlotComponent extends SlotComponent {
   public get rows(): FormArray {
     return this.parentForm.get(this.slot.key) as FormArray;
   }
 
   public constructor(
-    private _service: FormdefService
-  ) { }
+    private _fb: FormBuilder
+  ) {
+    super();
+  }
 
-  public add(event: Event): void {
-    event.preventDefault();
-
-    const row = this._service.createRow(this.slot, this.rows.at(0) as FormGroup);
+  public add(): void {
+    const row = this.createRow(this.slot, this.rows.at(0) as FormGroup);
     this.rows.push(row);
   }
 
   public remove(idx: number): void {
     this.rows.removeAt(idx);
+  }
+
+  private createRow(arraySlot: Slot, template: FormGroup): FormGroup {
+    const row = this._fb.group({});
+
+    arraySlot.editors.forEach((e: Editor) => {
+      row.addControl(e.name, new FormControl(undefined, FormdefValidator.getValidators(e)));
+    });
+
+    return row;
   }
 }

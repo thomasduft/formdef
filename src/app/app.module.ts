@@ -1,28 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { FormdefModule } from './formdef/formdef.module';
-import { FormdefRegistry } from './formdef/index';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
-import { ContactSlot } from './models';
+import { SimpleModule } from './simple/simple.module';
+import { NestedModule } from './nested/nested.module';
+import { ArrayModule } from './array/array.module';
+
+import { SimpleComponent } from './simple/simple.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
-    FormdefModule
+    SimpleModule,
+    NestedModule,
+    ArrayModule,
+    RouterModule.forRoot([
+      { path: '', redirectTo: 'simple', pathMatch: 'full' },
+      { path: 'simple', component: SimpleComponent }
+    ])
+  ],
+  declarations: [
+    AppComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  public constructor(
-    private _slotRegistry: FormdefRegistry
-  ) {
-    this._slotRegistry.register(new ContactSlot());
-  }
- }
+}
