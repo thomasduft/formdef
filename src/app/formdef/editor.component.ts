@@ -60,7 +60,8 @@ import { Editor } from './models';
       <input type="date" 
              class="form-control" 
              [attr.id]="editor.name" 
-             [formControlName]="editor.name">
+             [formControlName]="editor.name"
+             twUseValueAsDate>
     </ng-container>
 
     <ng-container *ngSwitchDefault>

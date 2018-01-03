@@ -6,7 +6,8 @@ import {
   TEXT_EDITOR,
   CHECKBOX_EDITOR,
   SELECT_EDITOR,
-  NUMBER_EDITOR
+  NUMBER_EDITOR,
+  DATE_EDITOR
 } from './../formdef/index';
 
 export class SimpleSlot implements Slot {
@@ -54,6 +55,12 @@ export class SimpleSlot implements Slot {
         required: true,
         valueMin: 1900,
         valueMax: 2100
+      },
+      {
+        type: DATE_EDITOR,
+        name: 'birthday',
+        label: 'Birthday',
+        required: true
       },
     ];
     this.children = [ ];

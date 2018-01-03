@@ -16,7 +16,8 @@ export class SimpleComponent {
     lastname: 'Duft',
     isDefault: true,
     gender: 'm',
-    year: 1980
+    year: 1980,
+    birthday: '2000-03-16'
   };
 
   public submitted(viewModel: any): void {

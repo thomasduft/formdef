@@ -6,6 +6,7 @@ import { FormdefService } from './formdef.service';
 import { FormdefRegistry } from './formdefRegistry.service';
 
 import { ArraySlotComponent } from './arraySlot.component';
+import { DateValueAccessor } from './dateValueAccessor';
 import { SlotComponent } from './slot.component';
 import { EditorComponent } from './editor.component';
 import { FormdefComponent } from './formdef.component';
@@ -19,7 +20,8 @@ import { FormdefComponent } from './formdef.component';
     EditorComponent,
     FormdefComponent,
     SlotComponent,
-    ArraySlotComponent
+    ArraySlotComponent,
+    DateValueAccessor
   ],
   exports: [
     FormdefComponent
