@@ -22,24 +22,24 @@ export class NestedSlot implements Slot {
     this.editors = [
       {
         type: TEXT_EDITOR,
-        name: 'surname',
+        key: 'surname',
         label: 'Surname',
         required: true
       },
       {
         type: TEXT_EDITOR,
-        name: 'lastname',
+        key: 'lastname',
         label: 'Last name',
         size: 20
       },
       {
         type: CHECKBOX_EDITOR,
-        name: 'isDefault',
+        key: 'isDefault',
         label: 'Use as default'
       },
       {
         type: SELECT_EDITOR,
-        name: 'gender',
+        key: 'gender',
         label: 'Gender',
         required: true,
         options: [
@@ -49,7 +49,7 @@ export class NestedSlot implements Slot {
       },
       {
         type: NUMBER_EDITOR,
-        name: 'year',
+        key: 'year',
         label: 'Year',
         required: true,
         valueMin: 1900,
@@ -64,12 +64,12 @@ export class NestedSlot implements Slot {
         editors: [
           {
             type: TEXT_EDITOR,
-            name: 'street',
+            key: 'street',
             label: 'Street'
           },
           {
             type: TEXT_EDITOR,
-            name: 'zip',
+            key: 'zip',
             label: 'Zip'
           }
         ],
@@ -82,7 +82,7 @@ export class NestedSlot implements Slot {
         editors: [
           {
             type: SELECT_EDITOR,
-            name: 'type',
+            key: 'type',
             label: 'Type',
             required: true,
             options: [
@@ -92,7 +92,7 @@ export class NestedSlot implements Slot {
           },
           {
             type: TEXT_EDITOR,
-            name: 'number',
+            key: 'number',
             label: 'Number',
             required: true,
             size: 10

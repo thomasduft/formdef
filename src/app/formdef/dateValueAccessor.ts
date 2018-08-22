@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const DATE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => DateValueAccessor),
+  useExisting: forwardRef(() => DateValueAccessorDirective),
   multi: true
 };
 
@@ -12,14 +12,14 @@ export const DATE_VALUE_ACCESSOR: any = {
  *
  *  ### Example
  *  `<input type="date" name="myBirthday" ngModel useValueAsDate>`
- * 
+ *
  * see: https://blog.johanneshoppe.de/2016/10/angular-2-how-to-use-date-input-controls-with-angular-forms/
  */
 @Directive({
-  selector: 'twUseValueAsDate',
+  selector: '[twUseValueAsDate]',
   providers: [DATE_VALUE_ACCESSOR]
 })
-export class DateValueAccessor implements ControlValueAccessor {
+export class DateValueAccessorDirective implements ControlValueAccessor {
   @HostListener('input', ['$event.target.valueAsDate'])
   public onChange = (_: any) => { }
 
@@ -32,15 +32,16 @@ export class DateValueAccessor implements ControlValueAccessor {
   ) { }
 
   public writeValue(value: Date): void {
-    this._renderer.setElementProperty(this._elementRef.nativeElement, 'valueAsDate', value);
+    const v = new Date(value);
+    this._renderer.setElementProperty(this._elementRef.nativeElement, 'valueAsDate', v);
   }
 
-  public registerOnChange(fn: (_: any) => void): void { 
-    this.onChange = fn; 
+  public registerOnChange(fn: (_: any) => void): void {
+    this.onChange = fn;
   }
 
-  public registerOnTouched(fn: () => void): void { 
-    this.onTouched = fn; 
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
   }
 
   public setDisabledState(isDisabled: boolean): void {

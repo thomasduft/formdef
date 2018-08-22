@@ -1,13 +1,9 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormGroup,
   FormArray,
   FormControl,
-  FormBuilder,
-  AbstractControl
+  FormBuilder
 } from '@angular/forms';
 
 import { FormdefValidator, Editor, Slot } from './models';
@@ -16,30 +12,53 @@ import { SlotComponent } from './slot.component';
 @Component({
   selector: 'tw-arrayslot',
   template: `
-  <h3>{{ slot.title }}</h3>
-  <button type="button" class="btn btn-secondary" role="button" (click)="add($event)">+</button>
-  <table class="table table-sm" [formGroup]="parentForm">
-    <tbody>
-      <tr *ngFor="let row of rows.controls; let idx = index">
-        <td *ngFor="let editor of slot.editors">
-          <tw-editor
-            [hideLabel]="true"
-            [editor]="editor"
-            [parentForm]="rows.at(idx)">
-          </tw-editor>
-        </td>
-        <td>
-          <a class="btn btn-secondary" role="button" (click)="remove(idx)">-</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <ng-container *ngIf="slot.editors && slot.editors.length > 0">
-  `
+  <fieldset>
+    <legend (click)="toggle()">{{ slot.title }}</legend>
+    <ng-container *ngIf="!collapsed">
+      <div class="btn-group float-right">
+        <button type="button"
+                class="btn btn-secondary btn-sm"
+                (click)="add()">+</button>
+      </div>
+      <div class="table-responsive-md">
+        <table class="table table-hover" [formGroup]="parentForm">
+          <thead>
+            <tr>
+              <td *ngFor="let editor of headers">
+                {{ editor.label }}
+              </td>
+              <td>&nbsp;</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows.controls; let idx = index">
+              <td *ngFor="let editor of slot.editors">
+                <tw-editor
+                  [small]="true"
+                  [hideLabel]="true"
+                  [editor]="editor"
+                  [parentForm]="rows.at(idx)">
+                </tw-editor>
+              </td>
+              <td>
+                <button type="button"
+                        class="btn btn-secondary btn-sm"
+                        (click)="remove(idx)">-</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </fieldset>`
 })
 export class ArraySlotComponent extends SlotComponent {
   public get rows(): FormArray {
     return this.parentForm.get(this.slot.key) as FormArray;
+  }
+
+  public get headers(): Array<Editor> {
+    return this.slot.editors;
   }
 
   public constructor(
@@ -49,7 +68,7 @@ export class ArraySlotComponent extends SlotComponent {
   }
 
   public add(): void {
-    const row = this.createRow(this.slot, this.rows.at(0) as FormGroup);
+    const row = this.createRow(this.slot);
     this.rows.push(row);
   }
 
@@ -57,11 +76,11 @@ export class ArraySlotComponent extends SlotComponent {
     this.rows.removeAt(idx);
   }
 
-  private createRow(arraySlot: Slot, template: FormGroup): FormGroup {
+  private createRow(arraySlot: Slot): FormGroup {
     const row = this._fb.group({});
 
     arraySlot.editors.forEach((e: Editor) => {
-      row.addControl(e.name, new FormControl(undefined, FormdefValidator.getValidators(e)));
+      row.addControl(e.key, new FormControl(undefined, FormdefValidator.getValidators(e)));
     });
 
     return row;

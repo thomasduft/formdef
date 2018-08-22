@@ -23,24 +23,24 @@ export class SimpleSlot implements Slot {
     this.editors = [
       {
         type: TEXT_EDITOR,
-        name: 'surname',
+        key: 'surname',
         label: 'Surname',
         required: true
       },
       {
         type: TEXT_EDITOR,
-        name: 'lastname',
+        key: 'lastname',
         label: 'Last name',
         size: 20
       },
       {
         type: CHECKBOX_EDITOR,
-        name: 'isDefault',
+        key: 'isDefault',
         label: 'Use as default'
       },
       {
         type: SELECT_EDITOR,
-        name: 'gender',
+        key: 'gender',
         label: 'Gender',
         required: true,
         options: [
@@ -50,7 +50,7 @@ export class SimpleSlot implements Slot {
       },
       {
         type: NUMBER_EDITOR,
-        name: 'year',
+        key: 'year',
         label: 'Year',
         required: true,
         valueMin: 1900,
@@ -58,7 +58,7 @@ export class SimpleSlot implements Slot {
       },
       {
         type: DATE_EDITOR,
-        name: 'birthday',
+        key: 'birthday',
         label: 'Birthday',
         required: true
       },

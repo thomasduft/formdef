@@ -29,7 +29,7 @@ export class ArraySlot implements Slot {
         editors: [
           {
             type: SELECT_EDITOR,
-            name: 'type',
+            key: 'type',
             label: 'Type',
             required: true,
             options: [
@@ -39,14 +39,14 @@ export class ArraySlot implements Slot {
           },
           {
             type: TEXT_EDITOR,
-            name: 'number',
+            key: 'number',
             label: 'Number',
             required: true,
             size: 10
           },
           {
             type: TEXT_EDITOR,
-            name: 'description',
+            key: 'description',
             label: 'Description',
             size: 200
           }

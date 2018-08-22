@@ -3,7 +3,9 @@ import {
   Validators
 } from '@angular/forms';
 
+export const HIDDEN_EDITOR = 'hidden';
 export const TEXT_EDITOR = 'text';
+export const TEXT_AREA_EDITOR = 'textarea';
 export const PASSWORD_EDITOR = 'password';
 export const RADIO_EDITOR = 'radio';
 export const CHECKBOX_EDITOR = 'checkbox';
@@ -14,11 +16,11 @@ export const TIME_EDITOR = 'time';
 export const SELECT_EDITOR = 'select';
 
 export interface Editor {
+  key: string;
   type: string;
-  name: string;
   label: string;
   value?: any;
-  options?: any;
+  options?: Array<{ key: string | number, value: string }>;
   required?: boolean;
   size?: number;
   valueMin?: number;
@@ -33,7 +35,7 @@ export interface Slot {
   type: string;
   title: string;
   editors: Array<Editor>;
-  children: Array<Slot>;
+  children?: Array<Slot>;
 }
 
 export class FormdefValidator {

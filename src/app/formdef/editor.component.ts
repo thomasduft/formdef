@@ -14,83 +14,100 @@ import { Editor } from './models';
   template: `
   <div [ngSwitch]="editor.type"
        [formGroup]="parentForm"
-       [ngClass]="{ 'has-danger': control(editor.name).invalid,
+       [ngClass]="{ 'has-danger': control(editor.key).invalid,
                     'form-group': editor.type !== 'checkbox',
                     'checkbox': editor.type === 'checkbox' }">
 
-    <label class="form-control-label" 
-           *ngIf="!hideLabel && editor.type !== 'checkbox'" 
-           [attr.for]="editor.name">
+    <label class="form-control-label"
+           *ngIf="(!hideLabel && editor.type !== 'checkbox' && editor.type !== 'hidden')"
+           [attr.for]="editor.key">
       {{ editor.label }}
     </label>
 
-    <ng-container *ngSwitchCase="'number'">
-      <input type="number" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name">
-    </ng-container>
+   <input *ngSwitchCase="'hidden'"
+          type="hidden"
+          class="form-control"
+          [ngClass]="{ 'form-control-sm': small }"
+          [attr.id]="editor.key"
+          [formControlName]="editor.key" />
 
-    <ng-container *ngSwitchCase="'password'">
-      <input type="password" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name">
-    </ng-container>
+   <input *ngSwitchCase="'number'"
+          type="number"
+          class="form-control"
+          pattern="[0-9.,]*"
+          inputmode="numeric"
+          [ngClass]="{ 'form-control-sm': small }"
+          [attr.id]="editor.key"
+          [formControlName]="editor.key" />
 
-    <ng-container *ngSwitchCase="'checkbox'">
-      <label>
-        <input type="checkbox" 
-               [attr.id]="editor.name" 
-               [formControlName]="editor.name">
-        {{ editor.label }}
-      </label>
-    </ng-container>
+   <input *ngSwitchCase="'password'"
+          type="password"
+          class="form-control"
+          [ngClass]="{ 'form-control-sm': small }"
+          [attr.id]="editor.key"
+          [formControlName]="editor.key" />
 
-    <ng-container *ngSwitchCase="'select'">
-      <select class="form-control" [formControlName]="editor.name">
-        <option *ngIf="!editor.required" [value]=""></option>
-        <option *ngFor="let opt of editor.options" [value]="opt.key">
-          {{ opt.value }}
-        </option>
-      </select>
-    </ng-container>
+   <label *ngSwitchCase="'checkbox'">
+     <input type="checkbox"
+            [attr.id]="editor.key"
+            [formControlName]="editor.key">
+     {{ editor.label }}
+   </label>
 
-    <ng-container *ngSwitchCase="'date'">
-      <input type="date" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name"
-             twUseValueAsDate>
-    </ng-container>
+   <select *ngSwitchCase="'select'"
+           class="form-control"
+           [ngClass]="{ 'form-control-sm': small }"
+           [formControlName]="editor.key">
+     <option *ngIf="!editor.required" [value]=""></option>
+     <option *ngFor="let opt of editor.options" [ngValue]="opt.key">
+       {{ opt.value }}
+     </option>
+   </select>
 
-    <ng-container *ngSwitchDefault>
-      <input type="text" 
-             class="form-control" 
-             [attr.id]="editor.name" 
-             [formControlName]="editor.name">
-    </ng-container>
+   <input *ngSwitchCase="'date'"
+          type="date"
+          class="form-control"
+          [ngClass]="{ 'form-control-sm': small }"
+          [attr.id]="editor.key"
+          [formControlName]="editor.key"
+          twUseValueAsDate />
 
-    <div *ngIf="control(editor.name).invalid" class="alert alert-danger">
-      <div *ngIf="control(editor.name).errors.required" i18n>
+    <textarea *ngSwitchCase="'textarea'"
+              class="form-control"
+              [ngClass]="{ 'form-control-sm': small }"
+              [attr.id]="editor.key"
+              [formControlName]="editor.key">
+    </textarea>
+
+   <input *ngSwitchDefault
+          type="text"
+          class="form-control"
+          [ngClass]="{ 'form-control-sm': small }"
+          [attr.id]="editor.key"
+          [formControlName]="editor.key" />
+
+    <div *ngIf="control(editor.key).invalid" class="alert alert-danger">
+      <div *ngIf="control(editor.key).hasError('required')" i18n>
         {{ editor.label }} required.
       </div>
-      <div *ngIf="control(editor.name).errors.maxlength" i18n>
+      <div *ngIf="control(editor.key).hasError('maxlength')" i18n>
         {{ editor.label }} must not be longer than {{ editor.size }} characters.
       </div>
-      <div *ngIf="control(editor.name).errors.min" i18n>
+      <div *ngIf="control(editor.key).hasError('min')" i18n>
         {{ editor.label }} must not be lower than {{ editor.valueMin }}.
       </div>
-      <div *ngIf="control(editor.name).errors.max" i18n>
+      <div *ngIf="control(editor.key).hasError('max')" i18n>
         {{ editor.label }} must not be greater than {{ editor.valueMax }}.
       </div>
     </div>
-  </div>
-  `
+  </div>`
 })
 export class EditorComponent {
   @Input()
   public hideLabel = false;
+
+  @Input()
+  public small = false;
 
   @Input()
   public editor: Editor;

@@ -3,23 +3,23 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  FormArray,
-  AbstractControl
+  FormArray
 } from '@angular/forms';
 
-import { 
+import {
   FormdefValidator,
-  Editor, 
-  Slot, 
-  SINGLE_SLOT, 
-  ARRAY_SLOT } from './models';
+  Editor,
+  Slot,
+  SINGLE_SLOT,
+  ARRAY_SLOT
+} from './models';
 import { FormdefRegistry } from './formdefRegistry.service';
 
 @Injectable()
 export class FormdefService {
   public constructor(
-    private _slotRegistry: FormdefRegistry,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _slotRegistry: FormdefRegistry
   ) { }
 
   public toGroup(key: string, viewModel: any): FormGroup {
@@ -36,27 +36,27 @@ export class FormdefService {
 
   private toGroupRecursive(slot: Slot, viewModel: any): FormGroup | FormArray {
     const fg = this._fb.group({});
-    let fa: FormArray;
 
     if (slot.type === SINGLE_SLOT) {
       slot.editors.forEach((e: Editor) => {
-        e.value = viewModel[e.name];
-        fg.addControl(e.name, new FormControl(e.value, FormdefValidator.getValidators(e)));
+        fg.addControl(e.key, new FormControl(
+          viewModel[e.key],
+          FormdefValidator.getValidators(e)
+        ));
       });
     }
 
-    if (slot.type === ARRAY_SLOT
-      && Array.isArray(viewModel)) {
-
-      fa = this._fb.array([]);
+    if (slot.type === ARRAY_SLOT && Array.isArray(viewModel)) {
+      const fa = this._fb.array([]);
 
       for (let i = 0; i < viewModel.length; i++) {
-        const vm = viewModel[i];
         const row = this._fb.group({});
 
         slot.editors.forEach((e: Editor) => {
-          const value = vm[e.name];
-          row.addControl(e.name, new FormControl(value, FormdefValidator.getValidators(e)));
+          row.addControl(e.key, new FormControl(
+            viewModel[i][e.key],
+            FormdefValidator.getValidators(e)
+          ));
         });
 
         fa.push(row);
