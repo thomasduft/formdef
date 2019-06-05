@@ -1,6 +1,5 @@
 import {
   SINGLE_SLOT,
-  ARRAY_SLOT,
   Editor,
   Slot,
   TEXT_EDITOR,
