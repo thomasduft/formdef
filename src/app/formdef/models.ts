@@ -14,6 +14,7 @@ export const NUMBER_EDITOR = 'number';
 export const RANGE_EDITOR = 'range';
 export const TIME_EDITOR = 'time';
 export const SELECT_EDITOR = 'select';
+export const FILE_EDITOR = 'file';
 
 export interface Editor {
   key: string;

@@ -47,6 +47,13 @@ import { Editor } from './models';
           [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
+    <tw-file-upload *ngSwitchCase="'file'"
+          class="form-control"
+          [ngClass]="{ 'form-control-sm': small }"
+          [attr.id]="editor.key"
+          [formControlName]="editor.key" >
+    </tw-file-upload>
+
    <label *ngSwitchCase="'checkbox'">
      <input type="checkbox"
             [attr.id]="editor.key"

@@ -9,11 +9,13 @@ import { DateValueAccessorDirective } from './dateValueAccessor';
 import { SlotComponent } from './slot.component';
 import { EditorComponent } from './editor.component';
 import { FormdefComponent } from './formdef.component';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FileUploadModule
   ],
   declarations: [
     EditorComponent,
@@ -24,6 +26,7 @@ import { FormdefComponent } from './formdef.component';
   ],
   exports: [
     ReactiveFormsModule,
+    FileUploadModule,
     FormdefComponent
   ],
   providers: [
