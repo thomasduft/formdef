@@ -4,7 +4,19 @@ import { SimpleSlot } from './models';
 
 @Component({
   selector: 'tw-simple',
-  templateUrl: './simple.component.html'
+  template: `
+  <div class="row">
+    <div class="col-lg-6">
+      <tw-formdef
+        [key]="key"
+        [viewModel]="viewModel"
+        (submitted)="submitted($event)">
+      </tw-formdef>
+    </div>
+    <div class="col-lg-6">
+      <pre>{{ submittedViewModel | json }}</pre>
+    </div>
+  </div>`
 })
 export class SimpleComponent {
   public key = SimpleSlot.KEY;

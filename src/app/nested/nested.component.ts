@@ -4,7 +4,19 @@ import { NestedSlot } from './models';
 
 @Component({
   selector: 'tw-nested',
-  templateUrl: './nested.component.html'
+  template: `
+  <div class="row">
+    <div class="col-lg-6">
+      <tw-formdef
+        [key]="key"
+        [viewModel]="viewModel"
+        (submitted)="submitted($event)">
+      </tw-formdef>
+    </div>
+    <div class="col-lg-6">
+      <pre>{{ submittedViewModel | json }}</pre>
+    </div>
+  </div>`
 })
 export class NestedComponent {
   public key = NestedSlot.KEY;
