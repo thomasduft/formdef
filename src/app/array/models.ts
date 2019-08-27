@@ -42,13 +42,13 @@ export class ArraySlot implements Slot {
             key: 'number',
             label: 'Number',
             required: true,
-            size: 10
+            maxLength: 10
           },
           {
             type: TEXT_EDITOR,
             key: 'description',
             label: 'Description',
-            size: 200
+            maxLength: 200
           }
         ],
         children: []
