@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs';
-
 import {
   Component,
   OnInit,
   Input,
   EventEmitter,
-  Output
+  Output,
+  HostBinding
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -16,27 +15,24 @@ import { FormdefService } from './formdef.service';
   selector: 'tw-formdef',
   template: `
   <form [formGroup]="form"
-        (ngSubmit)="onSubmit()"
-        class="needs-validation"
-        novalidate >
+        (ngSubmit)="onSubmit()">
     <tw-slot *ngIf="slot"
              [slot]="slot"
-             [parentForm]="form">
+             [form]="form">
     </tw-slot>
-    <div class="btn-group" role="group">
+    <div class="button__bar">
       <button *ngIf="showSave"
               type="submit"
-              class="btn btn-primary"
               [disabled]="!form.valid"
-              i18n>Save</button>
+              i18n>{{ getSaveLabel }}</button>
       <button *ngIf="showCancel"
               type="button"
-              class="btn btn-secondary"
+              class="button--secondary"
               (click)="onReset()"
               i18n>Cancel</button>
       <button *ngIf="showDelete"
               type="button"
-              class="btn btn-secondary"
+              class="button--secondary"
               (click)="onDelete()"
               i18n>Delete</button>
     </div>
@@ -66,6 +62,13 @@ export class FormdefComponent implements OnInit {
   public showSave = true;
 
   @Input()
+  public saveTitle: string;
+
+  public get getSaveLabel(): string {
+    return this.saveTitle ? this.saveTitle : 'Save';
+  }
+
+  @Input()
   public showCancel = false;
 
   @Input()
@@ -79,6 +82,9 @@ export class FormdefComponent implements OnInit {
 
   @Output()
   public deleted: EventEmitter<any> = new EventEmitter<any>();
+
+  @HostBinding('class')
+  public class = 'form';
 
   public form: FormGroup = new FormGroup({});
   public slot: Slot;

@@ -2,14 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { FileUploadModule } from './file-upload/file-upload.module';
+
 import { FormdefRegistry } from './formdefRegistry.service';
 
+import { SINGLE_SLOT, ARRAY_SLOT } from './models';
 import { ArraySlotComponent } from './arraySlot.component';
 import { DateValueAccessorDirective } from './dateValueAccessor';
 import { SlotComponent } from './slot.component';
 import { EditorComponent } from './editor.component';
 import { FormdefComponent } from './formdef.component';
-import { FileUploadModule } from './file-upload/file-upload.module';
+import { SlotComponentRegistry, SlotComponentMetaData } from './slotComponentRegistry.service';
+import { SlotHostComponent } from './slotHost.component';
 
 @NgModule({
   imports: [
@@ -20,18 +24,30 @@ import { FileUploadModule } from './file-upload/file-upload.module';
   declarations: [
     EditorComponent,
     FormdefComponent,
+    SlotHostComponent,
     SlotComponent,
     ArraySlotComponent,
     DateValueAccessorDirective
   ],
   exports: [
     ReactiveFormsModule,
-    FileUploadModule,
-    FormdefComponent
+    FormdefComponent,
+    EditorComponent
+  ],
+  entryComponents: [
+    SlotComponent,
+    ArraySlotComponent
   ],
   providers: [
-    FormdefRegistry
+    FormdefRegistry,
+    SlotComponentRegistry
   ]
 })
 export class FormdefModule {
+  public constructor(
+    private _registry: SlotComponentRegistry
+  ) {
+    this._registry.register(new SlotComponentMetaData(SINGLE_SLOT, SlotComponent));
+    this._registry.register(new SlotComponentMetaData(ARRAY_SLOT, ArraySlotComponent));
+  }
 }

@@ -13,11 +13,10 @@ import { Editor } from './models';
   selector: 'tw-editor',
   template: `
   <div [ngSwitch]="editor.type"
-       [formGroup]="parentForm"
+       [formGroup]="form"
        [ngClass]="{ 'has-danger': control(editor.key).invalid,
                     'form-group': editor.type !== 'checkbox',
                     'checkbox': editor.type === 'checkbox' }">
-
     <label class="form-control-label"
            *ngIf="(!hideLabel && editor.type !== 'checkbox' && editor.type !== 'hidden')"
            [attr.for]="editor.key">
@@ -93,20 +92,23 @@ import { Editor } from './models';
           [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
-    <div *ngIf="control(editor.key).invalid" class="alert alert-danger">
-      <div *ngIf="control(editor.key).hasError('required')" i18n>
-        {{ editor.label }} required.
+      <div *ngIf="control(editor.key).invalid" class="alert alert-danger">
+        <div *ngIf="control(editor.key).hasError('required')" i18n>
+          {{ editor.label }} required.
+        </div>
+        <div *ngIf="control(editor.key).hasError('min')" i18n>
+          {{ editor.label }} must not be lower than {{ editor.min }}.
+        </div>
+        <div *ngIf="control(editor.key).hasError('max')" i18n>
+          {{ editor.label }} must not be greater than {{ editor.max }}.
+        </div>
+        <div *ngIf="control(editor.key).hasError('minlength')" i18n>
+          {{ editor.label }} must be at least {{ editor.minLength }} characters in length.
+        </div>
+        <div *ngIf="control(editor.key).hasError('maxlength')" i18n>
+          {{ editor.label }} must not be longer than {{ editor.maxLength }} characters.
+        </div>
       </div>
-      <div *ngIf="control(editor.key).hasError('maxlength')" i18n>
-        {{ editor.label }} must not be longer than {{ editor.size }} characters.
-      </div>
-      <div *ngIf="control(editor.key).hasError('min')" i18n>
-        {{ editor.label }} must not be lower than {{ editor.valueMin }}.
-      </div>
-      <div *ngIf="control(editor.key).hasError('max')" i18n>
-        {{ editor.label }} must not be greater than {{ editor.valueMax }}.
-      </div>
-    </div>
   </div>`
 })
 export class EditorComponent {
@@ -114,15 +116,12 @@ export class EditorComponent {
   public hideLabel = false;
 
   @Input()
-  public small = false;
-
-  @Input()
   public editor: Editor;
 
   @Input()
-  public parentForm: FormGroup;
+  public form: FormGroup;
 
   public control(name: string): AbstractControl {
-    return this.parentForm.get(name);
+    return this.form.get(name);
   }
 }

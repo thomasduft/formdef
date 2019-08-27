@@ -1,6 +1,8 @@
+import { Input } from '@angular/core';
 import {
   ValidatorFn,
-  Validators
+  Validators,
+  AbstractControl
 } from '@angular/forms';
 
 export const HIDDEN_EDITOR = 'hidden';
@@ -14,6 +16,7 @@ export const NUMBER_EDITOR = 'number';
 export const RANGE_EDITOR = 'range';
 export const TIME_EDITOR = 'time';
 export const SELECT_EDITOR = 'select';
+export const MULTI_SELECT_EDITOR = 'multi-select';
 export const FILE_EDITOR = 'file';
 
 export interface Editor {
@@ -22,10 +25,13 @@ export interface Editor {
   label: string;
   value?: any;
   options?: Array<{ key: string | number, value: string }>;
+  singleSelection?: boolean;
+  bindingBehaviour?: 'key' | 'value';
   required?: boolean;
-  size?: number;
-  valueMin?: number;
-  valueMax?: number;
+  min?: number;
+  max?: number;
+  minLength?: number;
+  maxLength?: number;
 }
 
 export const SINGLE_SLOT = 'single';
@@ -46,16 +52,27 @@ export class FormdefValidator {
     if (editor.required) {
       validators.push(Validators.required);
     }
-    if (editor.size) {
-      validators.push(Validators.maxLength(editor.size));
+    if (editor.min) {
+      validators.push(Validators.min(editor.min));
     }
-    if (editor.valueMin) {
-      validators.push(Validators.min(editor.valueMin));
+    if (editor.max) {
+      validators.push(Validators.max(editor.max));
     }
-    if (editor.valueMax) {
-      validators.push(Validators.max(editor.valueMax));
+    if (editor.minLength) {
+      validators.push(Validators.minLength(editor.minLength));
+    }
+    if (editor.maxLength) {
+      validators.push(Validators.maxLength(editor.maxLength));
     }
 
     return Validators.compose(validators);
   }
+}
+
+export class BaseSlotComponent {
+  @Input()
+  public slot: Slot;
+
+  @Input()
+  public form: AbstractControl;
 }

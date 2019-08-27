@@ -31,7 +31,7 @@ export class SimpleSlot implements Slot {
         type: TEXT_EDITOR,
         key: 'lastname',
         label: 'Last name',
-        size: 20
+        maxLength: 20
       },
       {
         type: CHECKBOX_EDITOR,
@@ -53,8 +53,8 @@ export class SimpleSlot implements Slot {
         key: 'year',
         label: 'Year',
         required: true,
-        valueMin: 1900,
-        valueMax: 2100
+        min: 1900,
+        max: 2100
       },
       {
         type: DATE_EDITOR,

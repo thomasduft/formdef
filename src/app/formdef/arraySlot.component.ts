@@ -21,7 +21,7 @@ import { SlotComponent } from './slot.component';
                 (click)="add()">+</button>
       </div>
       <div class="table-responsive-md">
-        <table class="table table-hover" [formGroup]="parentForm">
+        <table class="table table-hover" [formGroup]="form">
           <thead>
             <tr>
               <td *ngFor="let editor of headers">
@@ -34,10 +34,9 @@ import { SlotComponent } from './slot.component';
             <tr *ngFor="let row of rows.controls; let idx = index">
               <td *ngFor="let editor of slot.editors">
                 <tw-editor
-                  [small]="true"
                   [hideLabel]="true"
                   [editor]="editor"
-                  [parentForm]="rows.at(idx)">
+                  [form]="rows.at(idx)">
                 </tw-editor>
               </td>
               <td>
@@ -54,7 +53,7 @@ import { SlotComponent } from './slot.component';
 })
 export class ArraySlotComponent extends SlotComponent {
   public get rows(): FormArray {
-    return this.parentForm.get(this.slot.key) as FormArray;
+    return this.form as FormArray;
   }
 
   public get headers(): Array<Editor> {
@@ -76,7 +75,7 @@ export class ArraySlotComponent extends SlotComponent {
     this.rows.removeAt(idx);
   }
 
-  private createRow(arraySlot: Slot): FormGroup {
+  protected createRow(arraySlot: Slot): FormGroup {
     const row = this._fb.group({});
 
     arraySlot.editors.forEach((e: Editor) => {
