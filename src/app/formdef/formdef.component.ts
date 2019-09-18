@@ -23,16 +23,17 @@ import { FormdefService } from './formdef.service';
     <div class="button__bar">
       <button *ngIf="showSave"
               type="submit"
+              class="btn btn-primary"
               [disabled]="!form.valid"
               i18n>{{ getSaveLabel }}</button>
       <button *ngIf="showCancel"
               type="button"
-              class="button--secondary"
+              class="btn-secondary"
               (click)="onReset()"
               i18n>Cancel</button>
       <button *ngIf="showDelete"
               type="button"
-              class="button--secondary"
+              class="btn-secondary"
               (click)="onDelete()"
               i18n>Delete</button>
     </div>

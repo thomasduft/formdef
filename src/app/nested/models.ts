@@ -73,6 +73,7 @@ export class NestedSlot implements Slot {
             label: 'Zip'
           }
         ],
+        collapsed: true,
         children: []
       },
       {

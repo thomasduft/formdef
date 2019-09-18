@@ -43,6 +43,7 @@ export interface Slot {
   title: string;
   editors: Array<Editor>;
   children?: Array<Slot>;
+  collapsed?: boolean;
 }
 
 export class FormdefValidator {

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { BaseSlotComponent } from './models';
+import { BaseSlotComponent, Slot } from './models';
 
 @Component({
   selector: 'tw-slot',
@@ -18,7 +18,7 @@ import { BaseSlotComponent } from './models';
     </fieldset>
   </ng-container>
   <ng-container *ngIf="slot.children && slot.children.length > 0">
-    <ng-container *ngFor="let child of slot.children">
+    <ng-container *ngFor="let child of slot.children; trackBy: trackBySlotKey">
       <tw-slothost
         [slot]="child"
         [form]="form.get(child.key)">
@@ -26,10 +26,22 @@ import { BaseSlotComponent } from './models';
     </ng-container>
   </ng-container>`
 })
-export class SlotComponent extends BaseSlotComponent {
+export class SlotComponent extends BaseSlotComponent implements OnInit {
   public collapsed = false;
+
+  public ngOnInit(): void {
+    if (this.slot.collapsed) {
+      this.collapsed = this.slot.collapsed;
+    }
+  }
 
   public toggle(): void {
     this.collapsed = !this.collapsed;
+  }
+
+  public trackBySlotKey(_index: any, item: Slot) {
+    if (!item) { return null; }
+
+    return item.key;
   }
 }
