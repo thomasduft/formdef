@@ -4,9 +4,8 @@ import { RouterModule } from '@angular/router';
 
 import { FormdefModule, FormdefRegistry } from './../formdef/index';
 
-import { SimpleComponent } from './simple.component';
-
 import { SimpleSlot } from './models';
+import { SimpleComponent } from './simple.component';
 
 @NgModule({
   imports: [

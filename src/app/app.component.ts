@@ -21,6 +21,9 @@ import {
           <li class="nav-item">
             <a class="nav-link" routerLinkActive="active" routerLink="/array">Array</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="/custom">Custom</a>
+          </li>
         </ul>
       </nav>
       <h3 class="text-muted">Dynamic forms with angular</h3>

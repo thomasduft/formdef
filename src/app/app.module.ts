@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { SimpleModule } from './simple/simple.module';
 import { NestedModule } from './nested/nested.module';
 import { ArrayModule } from './array/array.module';
+import { CustomModule } from './custom/custom.module';
 
 import { SimpleComponent } from './simple/simple.component';
 
@@ -16,6 +17,7 @@ import { SimpleComponent } from './simple/simple.component';
     SimpleModule,
     NestedModule,
     ArrayModule,
+    CustomModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'simple', pathMatch: 'full' },
       { path: 'simple', component: SimpleComponent }
