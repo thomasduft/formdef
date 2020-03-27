@@ -26,8 +26,6 @@ import { Editor } from './models';
    <input *ngSwitchCase="'hidden'"
           type="hidden"
           class="form-control"
-          [ngClass]="{ 'form-control-sm': small }"
-          [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
    <input *ngSwitchCase="'number'"
@@ -35,34 +33,26 @@ import { Editor } from './models';
           class="form-control"
           pattern="[0-9.,]*"
           inputmode="numeric"
-          [ngClass]="{ 'form-control-sm': small }"
-          [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
    <input *ngSwitchCase="'password'"
           type="password"
           class="form-control"
-          [ngClass]="{ 'form-control-sm': small }"
-          [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
     <tw-file-upload *ngSwitchCase="'file'"
           class="form-control"
-          [ngClass]="{ 'form-control-sm': small }"
-          [attr.id]="editor.key"
           [formControlName]="editor.key" >
     </tw-file-upload>
 
    <label *ngSwitchCase="'checkbox'">
      <input type="checkbox"
-            [attr.id]="editor.key"
             [formControlName]="editor.key">
      {{ editor.label }}
    </label>
 
    <select *ngSwitchCase="'select'"
            class="form-control"
-           [ngClass]="{ 'form-control-sm': small }"
            [formControlName]="editor.key">
      <option *ngIf="!editor.required" [value]=""></option>
      <option *ngFor="let opt of editor.options" [ngValue]="opt.key">
@@ -73,23 +63,17 @@ import { Editor } from './models';
    <input *ngSwitchCase="'date'"
           type="date"
           class="form-control"
-          [ngClass]="{ 'form-control-sm': small }"
-          [attr.id]="editor.key"
           [formControlName]="editor.key"
           twUseValueAsDate />
 
     <textarea *ngSwitchCase="'textarea'"
               class="form-control"
-              [ngClass]="{ 'form-control-sm': small }"
-              [attr.id]="editor.key"
               [formControlName]="editor.key">
     </textarea>
 
    <input *ngSwitchDefault
           type="text"
           class="form-control"
-          [ngClass]="{ 'form-control-sm': small }"
-          [attr.id]="editor.key"
           [formControlName]="editor.key" />
 
       <div *ngIf="control(editor.key).invalid" class="alert alert-danger">
