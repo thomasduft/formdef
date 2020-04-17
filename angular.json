@@ -109,5 +109,8 @@
       }
     }
   },
-  "defaultProject": "formdef"
+  "defaultProject": "formdef",
+  "cli": {
+    "analytics": false
+  }
 }
