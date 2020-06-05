@@ -24,9 +24,6 @@ import { CustomSlotComponent } from './custom-slot.component';
   declarations: [
     CustomComponent,
     CustomSlotComponent
-  ],
-  entryComponents: [
-    CustomSlotComponent
   ]
 })
 export class CustomModule {
