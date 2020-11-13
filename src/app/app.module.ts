@@ -19,9 +19,9 @@ import { SimpleComponent } from './simple/simple.component';
     ArrayModule,
     CustomModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'simple', pathMatch: 'full' },
-      { path: 'simple', component: SimpleComponent }
-    ])
+    { path: '', redirectTo: 'simple', pathMatch: 'full' },
+    { path: 'simple', component: SimpleComponent }
+], { relativeLinkResolution: 'legacy' })
   ],
   declarations: [
     AppComponent
