@@ -16,10 +16,10 @@ import { FormdefService } from './formdef.service';
   template: `
   <form [formGroup]="form"
         (ngSubmit)="onSubmit()">
-    <tw-slot *ngIf="slot"
+    <tw-slothost
              [slot]="slot"
              [form]="form">
-    </tw-slot>
+    </tw-slothost>
     <div class="button__bar">
       <button *ngIf="showSave"
               type="submit"
@@ -43,21 +43,11 @@ import { FormdefService } from './formdef.service';
   ]
 })
 export class FormdefComponent implements OnInit {
-  private _viewModel: any;
-
   @Input()
   public key: string;
 
   @Input()
-  public set viewModel(v: any) {
-    if (v) {
-      this._viewModel = v;
-      this.ngOnInit();
-    }
-  }
-  public get viewModel() {
-    return this._viewModel;
-  }
+  public viewModel: any;
 
   @Input()
   public showSave = true;
@@ -103,7 +93,7 @@ export class FormdefComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    if (!this.viewModel) { return; }
+    console.log('current viewmodel', this.viewModel);
 
     this.form = this._formdefService.toGroup(this.key, this.viewModel);
     this.slot = this._formdefService.getSlot(this.key);

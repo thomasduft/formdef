@@ -18,8 +18,8 @@ import { FormdefRegistry } from './formdefRegistry.service';
 @Injectable()
 export class FormdefService {
   public constructor(
-    private _fb: FormBuilder,
-    private _slotRegistry: FormdefRegistry
+    private fb: FormBuilder,
+    private slotRegistry: FormdefRegistry
   ) { }
 
   public toGroup(key: string, viewModel: any): FormGroup {
@@ -31,11 +31,11 @@ export class FormdefService {
   }
 
   public getSlot(key: string): Slot {
-    return this._slotRegistry.get(key);
+    return this.slotRegistry.get(key);
   }
 
   private toGroupRecursive(slot: Slot, viewModel: any): FormGroup | FormArray {
-    const fg = this._fb.group({});
+    const fg = this.fb.group({});
 
     const isArray = Array.isArray(viewModel);
 
@@ -47,10 +47,10 @@ export class FormdefService {
         ));
       });
     } else {
-      const fa = this._fb.array([]);
+      const fa = this.fb.array([]);
 
       for (let i = 0; i < viewModel.length; i++) {
-        const row = this._fb.group({});
+        const row = this.fb.group({});
 
         slot.editors.forEach((e: Editor) => {
           row.addControl(e.key, new FormControl(

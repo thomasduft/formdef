@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { FormdefComponent } from '../formdef';
 
 import { SimpleSlot } from './models';
 
@@ -8,6 +9,7 @@ import { SimpleSlot } from './models';
   <div class="row">
     <div class="col-lg-6">
       <tw-formdef
+        #formdef
         [key]="key"
         [viewModel]="viewModel"
         (submitted)="submitted($event)">
@@ -18,7 +20,7 @@ import { SimpleSlot } from './models';
     </div>
   </div>`
 })
-export class SimpleComponent {
+export class SimpleComponent implements AfterViewInit {
   public key = SimpleSlot.KEY;
 
   public submittedViewModel = {};
@@ -32,6 +34,15 @@ export class SimpleComponent {
     birthday: '2018-01-21T00:00:00.000Z',
     avatar: null
   };
+
+  @ViewChild(FormdefComponent)
+  public formdef: FormdefComponent;
+
+  public ngAfterViewInit(): void {
+    this.formdef.form.valueChanges.subscribe((v: any) => {
+      console.log('valueChanges', v);
+    });
+  }
 
   public submitted(viewModel: any): void {
     this.submittedViewModel = viewModel;
