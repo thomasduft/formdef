@@ -5,14 +5,13 @@ import {
   Input,
   ComponentRef,
   ViewChild,
-  ViewContainerRef,
-  ComponentFactoryResolver
+  ViewContainerRef
 } from '@angular/core';
 import {
   FormGroup
 } from '@angular/forms';
 
-import { Slot, SINGLE_SLOT } from './models';
+import { Slot, SINGLE_SLOT, BaseSlotComponent } from './models';
 import { SlotComponentRegistry } from './slotComponentRegistry.service';
 
 @Component({
@@ -20,7 +19,7 @@ import { SlotComponentRegistry } from './slotComponentRegistry.service';
   template: `<ng-template #slotContent></ng-template>`
 })
 export class SlotHostComponent implements OnInit, OnDestroy {
-  private componentRef: ComponentRef<any>;
+  private componentRef: ComponentRef<BaseSlotComponent>;
 
   @Input()
   public slot: Slot;
@@ -41,14 +40,8 @@ export class SlotHostComponent implements OnInit, OnDestroy {
       const context = this.registry.get(slotType);
 
       if (context) {
-        const factory = this.slotContent.injector
-          .get(ComponentFactoryResolver)
-          .resolveComponentFactory(context.component);
-
-        this.componentRef = this.slotContent.createComponent(
-          factory,
-          this.slotContent.length
-        );
+        this.componentRef = this.slotContent
+          .createComponent<BaseSlotComponent>(context.component);
 
         // @Input bindings
         this.componentRef.instance.slot = this.slot;
