@@ -35,7 +35,7 @@ export class ArrayComponent implements OnInit {
         { type: 'o', number: '987654', description: 'Only during usual work hours' }
       ]
     })
-      .pipe(delay(5000))
+      // .pipe(delay(5000))
       .subscribe((data: any) => {
         delete this.viewModel;
         this.viewModel = data;
